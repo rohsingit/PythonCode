@@ -13,7 +13,7 @@ from sklearn.neural_network import MLPClassifier        #10 Multilayer Perceptro
 from sklearn.ensemble import GradientBoostingClassifier #11
 from statsmodels.tsa.arima_model import ARIMA           #12
 
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics import mean_squared_error, r2_score, classification_report
 from sklearn.model_selection import train_test_split
 import pandas as pd
 import numpy as np
@@ -71,9 +71,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size= 0.25)
 # print("DecisionTreeClassifier Prediction on Training Data = ", (model.score(X_train, y_train)))
 # print("DecisionTreeClassifier Prediction on Test Data = ", (model.score(X_test, y_test)))
 #
-# # import graphviz
+# import graphviz
 # # dot_data = tree.export_graphviz(model, feature_names=iris.feature_names, class_names= iris.target_names, out_file= None)
-# # graph = graphviz.Source(dot_data)
+# graph = graphviz.Source(dot_data)
 # # graph.render("iris")
 #
 # print("DecisionTreeClassifier Mean squared error = ", (mean_squared_error(y_test, model.predict(X_test))))
@@ -141,32 +141,60 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size= 0.25)
 
 
 # ################7: K Nearest Neighbors########################
+# print("\n")
+#
+# model = KMeans(n_clusters = 2)
+# model.fit(X_train)
+# print("KMeans Prediction on Training Data = ", (model.score(X_train, y_train)))
+# print("KMeans Prediction on Test Data = ", (model.score(X_test, y_test)))
+# # print(model.coef_)
+# # print(model.intercept_)
+# print("KMeans Mean squared error = ", (mean_squared_error(y_test, model.predict(X_test))))
+# print("KMeans R2 = ", (r2_score(y_test, model.predict(X_test))))
+#
+# colors = np.array(['red', 'green', 'blue', 'black', 'green', 'yellow', 'grey'])
+#
+# plt.subplot(2, 2, 1)
+# plt.title('Before classification 1')
+# plt.scatter(X_train['sepal length (cm)'], X_train['sepal width (cm)'], c=colors[y['target']], s=40)
+# plt.subplot(2, 2, 2)
+# plt.title('Before classification 2')
+# plt.scatter(X_train['sepal length (cm)'], X_train['petal width (cm)'], c=colors[y['target']], s=40)
+#
+# y_pred = model.labels_
+#
+# plt.subplot(2, 2, 3)
+# plt.title('After classification 1')
+# plt.scatter(X_train['sepal length (cm)'], X_train['sepal width (cm)'], c=colors[y_pred], s=40)
+# plt.subplot(2,2,4)
+# plt.title('After classification 2')
+# plt.scatter(X_train['sepal length (cm)'], X_train['petal width (cm)'], c=colors[y_pred], s=40)
+
+# ################8: Random Forest########################
 print("\n")
 
-model = KMeans(n_clusters = 2)
-model.fit(X_train)
-print("KMeans Prediction on Training Data = ", (model.score(X_train, y_train)))
-print("KMeans Prediction on Test Data = ", (model.score(X_test, y_test)))
+model = RandomForestClassifier()
+model.fit(X_train, y_train)
+
+print("RandomForestClassifier Prediction on Training Data = ", (model.score(X_train, y_train)))
+print("RandomForestClassifier Prediction on Test Data = ", (model.score(X_test, y_test)))
 # print(model.coef_)
 # print(model.intercept_)
-print("KMeans Mean squared error = ", (mean_squared_error(y_test, model.predict(X_test))))
-print("KMeans R2 = ", (r2_score(y_test, model.predict(X_test))))
+print("RandomForestClassifier Mean squared error = ", (mean_squared_error(y_test, model.predict(X_test))))
+print("RandomForestClassifier R2 = ", (r2_score(y_test, model.predict(X_test))))
 
-colors = np.array(['red', 'green', 'blue', 'black', 'green', 'yellow', 'grey'])
+#Confusion matrix
+import scikitplot as skplt
+cm = skplt.metrics.plot_confusion_matrix(y_test, model.predict(X_test))
+plt.show()
+#classification report
+print(classification_report(y_test, model.predict(X_test), target_names= ['0', '1', '2']))
+#importances plot
+importances = pd.DataFrame(model.feature_importances_, index= list(X_train))
+importances.plot(kind = 'bar', rot = 0)
+plt.show()
 
-plt.subplot(2, 2, 1)
-plt.title('Before classification 1')
-plt.scatter(X_train['sepal length (cm)'], X_train['sepal width (cm)'], c=colors[y['target']], s=40)
-plt.subplot(2, 2, 2)
-plt.title('Before classification 2')
-plt.scatter(X_train['sepal length (cm)'], X_train['petal width (cm)'], c=colors[y['target']], s=40)
+# ################9: PCA########################
+print("\n")
 
-y_pred = model.labels_
-
-plt.subplot(2, 2, 3)
-plt.title('After classification 1')
-plt.scatter(X_train['sepal length (cm)'], X_train['sepal width (cm)'], c=colors[y_pred], s=40)
-plt.subplot(2,2,4)
-plt.title('After classification 2')
-plt.scatter(X_train['sepal length (cm)'], X_train['petal width (cm)'], c=colors[y_pred], s=40)
-
+model = PCA()
