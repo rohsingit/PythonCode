@@ -1,3 +1,4 @@
+###########################--------------MODELS----------------############################################
 from sklearn.linear_model import LinearRegression       #1
 from sklearn.linear_model import LogisticRegression     #2
 from sklearn.tree import DecisionTreeClassifier         #3a
@@ -8,10 +9,13 @@ from sklearn.naive_bayes import GaussianNB              #5
 from sklearn.neighbors import KNeighborsClassifier      #6
 from sklearn.cluster import KMeans                      #7
 from sklearn.ensemble import RandomForestClassifier     #8
-from sklearn.decomposition import PCA                   #9
+from sklearn.decomposition import PCA, TruncatedSVD     #9
 from sklearn.neural_network import MLPClassifier        #10 Multilayer Perceptron
 from sklearn.ensemble import GradientBoostingClassifier #11
 from statsmodels.tsa.arima_model import ARIMA           #12
+from sklearn.
+
+###########################--------------MODELS END----------------########################################
 
 from sklearn.metrics import mean_squared_error, r2_score, classification_report
 from sklearn.model_selection import train_test_split
@@ -19,15 +23,19 @@ import pandas as pd
 import numpy as np
 from scipy import stats
 import matplotlib.pyplot as plt
-from sklearn.datasets import load_iris, load_diabetes
+
+###########################--------------DATESETS----------------###########################################
+from sklearn.datasets import load_iris, load_diabetes, load_boston
 iris = load_iris()
 diabetes = load_diabetes()
-data = iris             #TO BE SPECIFIED
+boston = load_boston()
+data = boston             #TO BE SPECIFIED
 
 X = pd.DataFrame(data.data, columns= data.feature_names)
 y = pd.DataFrame(data.target, columns = ['target'])
 df = pd.concat((X, y), axis = 1)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size= 0.25)
+###########################--------------DATESETS END----------------########################################
 
 #Exploratory
 # pd.plotting.scatter_matrix(diabetes_df)
@@ -170,31 +178,51 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size= 0.25)
 # plt.title('After classification 2')
 # plt.scatter(X_train['sepal length (cm)'], X_train['petal width (cm)'], c=colors[y_pred], s=40)
 
-# ################8: Random Forest########################
-print("\n")
-
-model = RandomForestClassifier()
-model.fit(X_train, y_train)
-
-print("RandomForestClassifier Prediction on Training Data = ", (model.score(X_train, y_train)))
-print("RandomForestClassifier Prediction on Test Data = ", (model.score(X_test, y_test)))
-# print(model.coef_)
-# print(model.intercept_)
-print("RandomForestClassifier Mean squared error = ", (mean_squared_error(y_test, model.predict(X_test))))
-print("RandomForestClassifier R2 = ", (r2_score(y_test, model.predict(X_test))))
-
-#Confusion matrix
-import scikitplot as skplt
-cm = skplt.metrics.plot_confusion_matrix(y_test, model.predict(X_test))
-plt.show()
-#classification report
-print(classification_report(y_test, model.predict(X_test), target_names= ['0', '1', '2']))
-#importances plot
-importances = pd.DataFrame(model.feature_importances_, index= list(X_train))
-importances.plot(kind = 'bar', rot = 0)
-plt.show()
+# # ################8: Random Forest########################
+# print("\n")
+#
+# model = RandomForestClassifier()
+# model.fit(X_train, y_train)
+#
+# print("RandomForestClassifier Prediction on Training Data = ", (model.score(X_train, y_train)))
+# print("RandomForestClassifier Prediction on Test Data = ", (model.score(X_test, y_test)))
+# # print(model.coef_)
+# # print(model.intercept_)
+# print("RandomForestClassifier Mean squared error = ", (mean_squared_error(y_test, model.predict(X_test))))
+# print("RandomForestClassifier R2 = ", (r2_score(y_test, model.predict(X_test))))
+#
+# #Confusion matrix
+# import scikitplot as skplt
+# cm = skplt.metrics.plot_confusion_matrix(y_test, model.predict(X_test))
+# plt.show()
+# #classification report
+# print(classification_report(y_test, model.predict(X_test), target_names= ['0', '1', '2']))
+# #importances plot
+# importances = pd.DataFrame(model.feature_importances_, index= list(X_train))
+# importances.plot(kind = 'bar', rot = 0)
+# plt.show()
 
 # ################9: PCA########################
 print("\n")
 
-model = PCA()
+#Before PCA score
+model = LinearRegression()
+model.fit(X_train, y_train)
+print("Score with LinearReg: " ,(model.score(X_test, y_test)))
+
+# model = PCA(n_components= 8)
+# pca_matrix = model.fit(X).transform(X)
+#
+# #After PCA score
+# X_train, X_test, y_train, y_test = train_test_split(pca_matrix, y)
+# model = LinearRegression()
+# model.fit(X_train, y_train)
+# print("Score with PCA: " ,(model.score(X_test, y_test)))
+
+#Try Truncated SVD
+model = TruncatedSVD(n_components= 8)
+svd_matrix = model.fit(X).transform(X)
+X_train, X_test, y_train, y_test = train_test_split(svd_matrix, y)
+model = LinearRegression()
+model.fit(X_train, y_train)
+print("Score with SVD: " ,(model.score(X_test, y_test)))
