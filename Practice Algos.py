@@ -13,7 +13,6 @@ from sklearn.decomposition import PCA, TruncatedSVD     #9
 from sklearn.neural_network import MLPClassifier        #10 Multilayer Perceptron
 from sklearn.ensemble import GradientBoostingClassifier #11
 from statsmodels.tsa.arima_model import ARIMA           #12
-from sklearn.
 
 ###########################--------------MODELS END----------------########################################
 
