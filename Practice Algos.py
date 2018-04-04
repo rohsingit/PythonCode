@@ -8,7 +8,8 @@ from sklearn.svm import SVR                             #4b
 from sklearn.naive_bayes import GaussianNB              #5
 from sklearn.neighbors import KNeighborsClassifier      #6
 from sklearn.cluster import KMeans                      #7
-from sklearn.ensemble import RandomForestClassifier     #8
+from sklearn.ensemble import RandomForestClassifier     #8a
+from sklearn.ensemble import RandomForestRegressor      #8b
 from sklearn.decomposition import PCA, TruncatedSVD     #9
 from sklearn.neural_network import MLPClassifier        #10 Multilayer Perceptron
 from sklearn.ensemble import GradientBoostingClassifier #11
@@ -16,7 +17,7 @@ from statsmodels.tsa.arima_model import ARIMA           #12
 
 ###########################--------------MODELS END----------------########################################
 
-from sklearn.metrics import mean_squared_error, r2_score, classification_report
+from sklearn.metrics import mean_squared_error, r2_score, classification_report, confusion_matrix
 from sklearn.model_selection import train_test_split
 import pandas as pd
 import numpy as np
@@ -28,7 +29,7 @@ from sklearn.datasets import load_iris, load_diabetes, load_boston
 iris = load_iris()
 diabetes = load_diabetes()
 boston = load_boston()
-data = boston             #TO BE SPECIFIED
+data = diabetes             #TO BE SPECIFIED
 
 X = pd.DataFrame(data.data, columns= data.feature_names)
 y = pd.DataFrame(data.target, columns = ['target'])
@@ -42,21 +43,25 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size= 0.25)
 # print(diabetes_df.dtypes)
 #
 # ################1: Linear Regression###############################
-# print("\n")
-#
-# model = LinearRegression()
-# model.fit(X_train, y_train)                  #OR model.fit(X_train[['bmi']], y_train)
-# print("LinearRegression Prediction on Training Data = ", (model.score(X_train, y_train)))
-# print("LinearRegression Prediction on Test Data = ", (model.score(X_test, y_test)))
-# # print(model.coef_)
-# # print(model.intercept_)
-# print("LinearRegression Mean squared error = ", (mean_squared_error(y_test, model.predict(X_test))))
-# print("LinearRegression R2 = ", (r2_score(y_test, model.predict(X_test))))
-#
-# #Visualisation only for univariate analysis
-# # plt.scatter(X_test[['bmi']], y_test)
-# # plt.plot(X_test[['bmi']], diabetes_y_pred, color = 'blue')
-# # plt.show()
+print("\n")
+
+model = LinearRegression()
+model.fit(X_train, y_train)                  #OR model.fit(X_train[['bmi']], y_train)
+print("LinearRegression Prediction on Training Data = ", (model.score(X_train, y_train)))
+print("LinearRegression Prediction on Test Data = ", (model.score(X_test, y_test)))
+# print(model.coef_)
+# print(model.intercept_)
+print("LinearRegression Mean squared error = ", (mean_squared_error(y_test, model.predict(X_test))))
+print("LinearRegression R2 = ", (r2_score(y_test, model.predict(X_test))))
+
+#Plot the coefficients
+coeff = pd.DataFrame(model.coef_[0], index= list(X_train))
+coeff.plot(kind = 'bar')
+
+#Visualisation only for univariate analysis
+# plt.scatter(X_test[['bmi']], y_test)
+# plt.plot(X_test[['bmi']], diabetes_y_pred, color = 'blue')
+# plt.show()
 #
 # # ################2: Logistic Regression###############################
 # print("\n")
@@ -177,7 +182,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size= 0.25)
 # plt.title('After classification 2')
 # plt.scatter(X_train['sepal length (cm)'], X_train['petal width (cm)'], c=colors[y_pred], s=40)
 
-# # ################8: Random Forest########################
+# # ################8a: Random Forest Classifier########################
 # print("\n")
 #
 # model = RandomForestClassifier()
@@ -190,24 +195,43 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size= 0.25)
 # print("RandomForestClassifier Mean squared error = ", (mean_squared_error(y_test, model.predict(X_test))))
 # print("RandomForestClassifier R2 = ", (r2_score(y_test, model.predict(X_test))))
 #
-# #Confusion matrix
+# #Confusion matrix using scikitplot
 # import scikitplot as skplt
 # cm = skplt.metrics.plot_confusion_matrix(y_test, model.predict(X_test))
 # plt.show()
+#
 # #classification report
 # print(classification_report(y_test, model.predict(X_test), target_names= ['0', '1', '2']))
+#
 # #importances plot
 # importances = pd.DataFrame(model.feature_importances_, index= list(X_train))
 # importances.plot(kind = 'bar', rot = 0)
 # plt.show()
+#
+# #confusion matrix using sklearn.metrics
+#
+# confusion_matrix(y_test, model.predict(X_test), labels= [0,1,2])
+
+# # ################8b: Random Forest Regressor########################
+# print("\n")
+#
+# model = RandomForestRegressor()
+# model.fit(X_train, y_train)
+#
+# print("RandomForestClassifier Prediction on Training Data = ", (model.score(X_train, y_train)))
+# print("RandomForestClassifier Prediction on Test Data = ", (model.score(X_test, y_test)))
+# # print(model.coef_)
+# # print(model.intercept_)
+# print("RandomForestClassifier Mean squared error = ", (mean_squared_error(y_test, model.predict(X_test))))
+# print("RandomForestClassifier R2 = ", (r2_score(y_test, model.predict(X_test))))
 
 # ################9: PCA########################
-print("\n")
+# print("\n")
 
 #Before PCA score
-model = LinearRegression()
-model.fit(X_train, y_train)
-print("Score with LinearReg: " ,(model.score(X_test, y_test)))
+# model = LinearRegression()
+# model.fit(X_train, y_train)
+# print("Score with LinearReg: " ,(model.score(X_test, y_test)))
 
 # model = PCA(n_components= 8)
 # pca_matrix = model.fit(X).transform(X)
@@ -219,9 +243,12 @@ print("Score with LinearReg: " ,(model.score(X_test, y_test)))
 # print("Score with PCA: " ,(model.score(X_test, y_test)))
 
 #Try Truncated SVD
-model = TruncatedSVD(n_components= 8)
-svd_matrix = model.fit(X).transform(X)
-X_train, X_test, y_train, y_test = train_test_split(svd_matrix, y)
-model = LinearRegression()
-model.fit(X_train, y_train)
-print("Score with SVD: " ,(model.score(X_test, y_test)))
+# model = TruncatedSVD(n_components= 8)
+# svd_matrix = model.fit(X).transform(X)
+# X_train, X_test, y_train, y_test = train_test_split(svd_matrix, y)
+# model = LinearRegression()
+# model.fit(X_train, y_train)
+# print("Score with SVD: " ,(model.score(X_test, y_test)))
+
+
+# ################12: ARIMA########################
