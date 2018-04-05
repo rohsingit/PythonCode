@@ -53,10 +53,10 @@ print("LinearRegression Prediction on Test Data = ", (model.score(X_test, y_test
 # print(model.intercept_)
 print("LinearRegression Mean squared error = ", (mean_squared_error(y_test, model.predict(X_test))))
 print("LinearRegression R2 = ", (r2_score(y_test, model.predict(X_test))))
-
-#Plot the coefficients
-coeff = pd.DataFrame(model.coef_[0], index= list(X_train))
-coeff.plot(kind = 'bar')
+#
+# #Plot the coefficients
+# coeff = pd.DataFrame(model.coef_[0], index= list(X_train))
+# coeff.plot(kind = 'bar')
 
 #Visualisation only for univariate analysis
 # plt.scatter(X_test[['bmi']], y_test)
@@ -212,7 +212,7 @@ coeff.plot(kind = 'bar')
 #
 # confusion_matrix(y_test, model.predict(X_test), labels= [0,1,2])
 
-# # ################8b: Random Forest Regressor########################
+# # # ################8b: Random Forest Regressor########################
 # print("\n")
 #
 # model = RandomForestRegressor()
