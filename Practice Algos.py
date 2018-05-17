@@ -29,7 +29,7 @@ from sklearn.datasets import load_iris, load_diabetes, load_boston
 iris = load_iris()
 diabetes = load_diabetes()
 boston = load_boston()
-data = diabetes             #TO BE SPECIFIED
+data = iris             #TO BE SPECIFIED
 
 X = pd.DataFrame(data.data, columns= data.feature_names)
 y = pd.DataFrame(data.target, columns = ['target'])
@@ -182,23 +182,23 @@ print("LinearRegression R2 = ", (r2_score(y_test, model.predict(X_test))))
 # plt.title('After classification 2')
 # plt.scatter(X_train['sepal length (cm)'], X_train['petal width (cm)'], c=colors[y_pred], s=40)
 
-# # ################8a: Random Forest Classifier########################
-# print("\n")
-#
-# model = RandomForestClassifier()
-# model.fit(X_train, y_train)
-#
-# print("RandomForestClassifier Prediction on Training Data = ", (model.score(X_train, y_train)))
-# print("RandomForestClassifier Prediction on Test Data = ", (model.score(X_test, y_test)))
-# # print(model.coef_)
-# # print(model.intercept_)
-# print("RandomForestClassifier Mean squared error = ", (mean_squared_error(y_test, model.predict(X_test))))
-# print("RandomForestClassifier R2 = ", (r2_score(y_test, model.predict(X_test))))
-#
-# #Confusion matrix using scikitplot
-# import scikitplot as skplt
-# cm = skplt.metrics.plot_confusion_matrix(y_test, model.predict(X_test))
-# plt.show()
+# ################8a: Random Forest Classifier########################
+print("\n")
+
+model = RandomForestClassifier()
+model.fit(X_train, y_train)
+
+print("RandomForestClassifier Prediction on Training Data = ", (model.score(X_train, y_train)))
+print("RandomForestClassifier Prediction on Test Data = ", (model.score(X_test, y_test)))
+# print(model.coef_)
+# print(model.intercept_)
+print("RandomForestClassifier Mean squared error = ", (mean_squared_error(y_test, model.predict(X_test))))
+print("RandomForestClassifier R2 = ", (r2_score(y_test, model.predict(X_test))))
+
+#Confusion matrix using scikitplot
+import scikitplot as skplt
+cm = skplt.metrics.plot_confusion_matrix(y_test, model.predict(X_test))
+plt.show()
 #
 # #classification report
 # print(classification_report(y_test, model.predict(X_test), target_names= ['0', '1', '2']))
@@ -252,3 +252,99 @@ print("LinearRegression R2 = ", (r2_score(y_test, model.predict(X_test))))
 
 
 # ################12: ARIMA########################
+
+# arima_df = df['CF_4000']
+# arima_data.plot()
+# pd.plotting.autocorrelation_plot(arima_data_resample)
+
+# plt.plot(arima_data, label = 'Original_dataset_CF_4000')
+# model = ARIMA(arima_data, order = (2,1,2))         #p = AR,d = differences, q = MA
+# results = model.fit()
+# plt.plot(results.fittedvalues, color = 'red', label = 'forecasted_CF_4000')
+# plt.legend()
+# plt.show()
+
+# # #do the Dicky-Fuller Test to check for Stationarity
+# # from statsmodels.tsa.stattools import adfuller
+# # print("Results of Dicky-Fuller Test: ")
+# # dftest = adfuller(df_Vibration, autolag= 'AIC')
+# # dfoutput = pd.Series(dftest[0:4], index = ['Test Statistic', 'p-value', '# lags Used', 'Number of Observations used'])
+# # for key, value in dftest[4].items():
+# #     dfoutput['Critical Value (%s)'%key] = value
+# # print(dfoutput)
+
+#########################EXTRA#################
+
+# # from statsmodels.tsa.seasonal import seasonal_decompose
+# # decomposition = seasonal_decompose(df_Vibration)
+# #
+# # from statsmodels.tsa.stattools import acf, pacf
+# # acf_lag = acf(df_Vibration)
+# # plt.plot(acf_lag)
+# #
+# # pacf_lag = pacf(df_Vibration)
+# # plt.plot(pacf_lag)
+# #
+# plt.plot(df_Vibration, label = 'Original_dataset')
+#
+# model = ARIMA(train, order = (2,0,2))
+# results = model.fit()
+# plt.plot(results.fittedvalues, color = 'red', label = 'forecasted_training_set')
+#
+# plt.legend()
+# plt.show()
+# #
+# forecast = results.forecast(steps= 78093)[0]
+# forecast = pd.DataFrame(forecast, columns= ['forecasted value from test set'])
+#
+# rsme = sqrt(mean_squared_error(train,results.fittedvalues))
+# print("RSME of training data vs itself = ", +rsme)
+# rsme = sqrt(mean_squared_error(test, forecast))
+# print("RSME of test data with forecasted data = ", +rsme)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+####################PICKLING######################
+
+################PICKLE A ML MODEL HERE################3
+
+#Creating the pickle here
+
+from sklearn import datasets
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.cross_validation import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report
+
+import cloudpickle as pickle
+import requests, json
+import numpy as np
+
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+
+X_train, X_test, y_train, y_test = train_test_split(X,y)
+rfc = RandomForestClassifier(n_estimators= 100, n_jobs= 2)
+rfc.fit(X_train, y_train)
+
+print(classification_report(y_test, rfc.predict(X_test)))
+
+pickle.dump(rfc, open("iris_rfc.pkl", "wb"))
+
+my_random_forest = pickle.load(open("iris_rfc.pkl", "rb"))
+predict_values = [[5.84, 3.0, 3.75, 1.1]]
+predicted = my_random_forest.predict(predict_values)
+print(predicted)
+

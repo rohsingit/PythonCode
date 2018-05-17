@@ -1,0 +1,59 @@
+############SERVER LAUNCH######################
+
+#Launch server here
+import numpy as np
+from flask import Flask, abort, jsonify, request
+import cloudpickle as pickle
+import json
+my_random_forest = pickle.load(open("iris_rfc.pkl", "rb"))      #DB initialized here
+app = Flask(__name__)
+
+@app.route('/hello')
+def hello():
+    return "Hello World! I am alive"
+
+@app.route('/api', methods=['GET', 'POST'])
+def api():
+    print("make_predict method is running")
+
+    if request.method == 'POST':
+        data = request.get_json(force = int)
+        print(data)
+
+        predict_request = [[data["sl"], data["sw"], data["pl"], data["pw"]]]
+        predict_request = np.array(predict_request)
+        print("Before y_hat")
+
+        y_hat = my_random_forest.predict(predict_request)
+        print(y_hat)
+
+        output = [y_hat[0]]
+        print(output)
+
+        output = {'message': str(output)}
+        resp = jsonify(output)
+        return resp
+        # return "make predict method is also working"
+        # return (output)
+        # return "GET"
+    else:
+        return "DUNNO"
+
+if __name__ == '__main__':
+    app.run(port = 9000, debug= True)
+
+##################TEST API HERE#############
+
+import requests, json
+
+url = "http://127.0.0.1:9000/api"
+test_data = {
+    "sl": 5.84,
+    "sw": 8.0,
+    "pl": 7.75,
+    "pw": 7.1
+             }
+data = json.dumps(test_data)
+print(type(data))
+
+r = requests.post(url, data)
