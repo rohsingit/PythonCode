@@ -2,8 +2,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 ##READ FILES/GENERATE DATA
-#From CSV
-path = r"C:\Users\10154861\Desktop\Work\1. Analytics\A. Data\A. VM_Holz_Biomasse\C. 4_yrs_complete\2990.csv"
+#From CSV or TXT
+path = r"filename.csv, sep = ",", header = None"
+path = r"filename.txt, sep = "|""   #Header will be loaded
+df = pd.read_csv(path, encoding='cp1252', sep = ';')    #Encoding if default 'utf-8' not working
 df = pd.read_csv(path)
 df.isnull().sum()
 
