@@ -9,10 +9,21 @@ df = pd.read_csv(path, encoding='cp1252', sep = ';')    #Encoding if default 'ut
 df = pd.read_csv(path)
 df.isnull().sum()
 
-##Export file to csv
+##CREATE LIST FROM EXCEL
+path = r'C:\Users\rohitsingh\filename.xlsx'
+List = pd.read_excel(path)
+List = list(List['Column_Name'])      #Creates a list with members of column name
+
+##SELECT SUBSET FROM DATAFRAME
+Subset_DataFrame1 = df.loc[df['Column_Name'] == 'Value']
+
+some_list = ('Value1', 'Value2', 'Value3')        #Create a list
+Subset_DataFrame2 = df.loc[df['Column_Name'].isin(some_list)
+
+##EXPORT TO CSV
 df.to_csv("name_of_file.csv")
 
-#Load as time series
+#LOAD AS TIME SERIES
 dateparse = lambda x: pd.datetime.strptime(x, '%Y-%m-%d %H:%M:%S')
 df = pd.read_csv("path", parse_dates= ['columnName'], index_col= 'columnName', date_parser= dateparse) #or index_col = [0]
 csv = pd.read_csv(filepath, encoding= 'cp1252', parse_dates= [0], index_col= [0], sep = ';', date_parser= dateparse)
@@ -23,7 +34,7 @@ df['Time'] = pd.to_datetime(df['Timestamp'], unit = 's')
 df.set_index('Time', inplace= True)
 del df['Timestamp']
 
-#Create DataFrame
+#CREATE DATAFRAME
 # df = {'Filename': [], 'Pump_Model': [], 'Serial_Number': [], 'Motor_Number': []}
 # table = pd.DataFrame(df)
 
@@ -39,6 +50,9 @@ del df['Timestamp']
 # print(df['CF_13'].describe())
 # print(df.dtypes)
 # print(df.index)
+                           
+##CHECK VALUE_COUNTS
+df['Column_Name'].value_counts().plot(kind = 'bar')   #Or assign to variable --> value_count = ...
 
 # len(array_name)
 ##SELECT DATA COLUMNS ETC
