@@ -90,6 +90,8 @@ fileNames = glob.glob(path + "\*.txt")
 for f in fileNames:
     file = os.path.basename(f)
     print("Reading: " +file)
+    temp = pd.read_csv(f)
+    df = df.append(temp)                ##CONCAT FILES TOGETHER
 
 
 ######################READ TDMS FILES##################
