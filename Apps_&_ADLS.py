@@ -85,7 +85,7 @@ for f in files:
 import glob, os
 
 path = r"C:\Users\10154861\Desktop"
-fileNames = glob.glob(path + "*.tdms")
+fileNames = glob.glob(path + "\*.txt")
 
 for f in fileNames:
     file = os.path.basename(f)
