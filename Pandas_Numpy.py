@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 #From CSV or TXT
 path = r"filename.csv, sep = ",", header = None"
 path = r"filename.txt, sep = "|""   #Header will be loaded
-df = pd.read_csv(path, encoding='cp1252', sep = ';')    #Encoding if default 'utf-8' not working
+df = pd.read_csv(path, encoding='cp1252', sep = ';', low_memory= False)    #Encoding if default 'utf-8' not working
 df = pd.read_csv(path)
 
 ##FIND NULLS
