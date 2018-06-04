@@ -91,7 +91,7 @@ for f in fileNames:
     file = os.path.basename(f)
     print("Reading: " +file)
     temp = pd.read_csv(f)
-    df = df.append(temp)                ##CONCAT FILES TOGETHER
+    df = df.append(temp)                ##CONCAT FILES TOGETHER. WILL TAKE COLUMNS NAMES
 
 
 ######################READ TDMS FILES##################
