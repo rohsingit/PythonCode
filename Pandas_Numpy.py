@@ -7,6 +7,8 @@ path = r"filename.csv, sep = ",", header = None"
 path = r"filename.txt, sep = "|""   #Header will be loaded
 df = pd.read_csv(path, encoding='cp1252', sep = ';')    #Encoding if default 'utf-8' not working
 df = pd.read_csv(path)
+
+##FIND NULLS
 df.isnull().sum()
 
 ##CREATE LIST FROM EXCEL
@@ -19,9 +21,13 @@ Subset_DataFrame1 = df.loc[df['Column_Name'] == 'Value']
 
 some_list = ('Value1', 'Value2', 'Value3')        #Create a list
 Subset_DataFrame2 = df.loc[df['Column_Name'].isin(some_list)
-
-##EXPORT TO CSV
+                           
+###GROUP DATA BY
+w = df.groupby(['trn date', 'strategy', 'trade typology', 'Fmly|Grp|Typ|'])['trn date'].count()                          
+                          
+##EXPORT TO CSV or EXCEL
 df.to_csv("name_of_file.csv")
+df.to_excel("name_of_file.xlsx", merge_cells = False)       #Don't merge cells
 
 #LOAD AS TIME SERIES
 dateparse = lambda x: pd.datetime.strptime(x, '%Y-%m-%d %H:%M:%S')
