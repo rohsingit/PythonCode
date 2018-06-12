@@ -73,6 +73,10 @@ df.iloc[1,]         #Show first row all columns
 # col_my_order = ['C','B','A']
 # df = df[col_my_order]       #Rearrange columns in order
 
+####SORT COLUMNS                           
+data1 = data.sort_index(axis=1)
+data1 = data.sort_values(['Legs','Strategy_Group','counterparty short label','Leg1'], ascending=[True, False])
+
 #CONCAT, SET INDEX
 # arima_df = pd.concat((timestamp, cf_100), axis = 1)
 # arima_df.set_index('Timestamp', inplace = True)
