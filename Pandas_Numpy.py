@@ -16,8 +16,9 @@ path = r'C:\Users\rohitsingh\filename.xlsx'
 List = pd.read_excel(path)
 List = list(List['Column_Name'])      #Creates a list with members of column name
 
-##SELECT SUBSET FROM DATAFRAME
+##SELECT SUBSET FROM DATAFRAME USING CELL VALUES
 Subset_DataFrame1 = df.loc[df['Column_Name'] == 'Value']
+subset8EK = temp[temp['strategy'].str.contains("8E")]
 
 some_list = ('Value1', 'Value2', 'Value3')        #Create a list
 Subset_DataFrame2 = df.loc[df['Column_Name'].isin(some_list)
