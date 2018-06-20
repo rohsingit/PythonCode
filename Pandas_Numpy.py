@@ -36,10 +36,12 @@ print(df.dtypes)
 print(df.index)
 len(array_name) or len (dataframe)
 
+
 ##CREATE LIST FROM EXCEL COLUMN
 path = r'C:\Users\rohitsingh\filename.xlsx'
 List = pd.read_excel(path)
 List = list(List['Column_Name'])      #Creates a list with members of column name
+
 
 ##FIND NULLS/UNIQUES/VALUE_COUNTS/FILLNNA
 df.isnull().sum()
@@ -47,6 +49,7 @@ uniqes = list(df['package reference'].unique())
 df['Column_Name'].value_counts().plot(kind = 'bar')   #Or assign to variable --> value_count = ...
 df = df.fillna(method= 'ffill')
 df_pkg['Count_of'] = df_pkg.groupby('column_name')['column_name'].transform('count')
+
 
 ##SELECT SUBSET FROM DATAFRAME USING CELL VALUES #ISIN/CONTAINS/GROUPBY/ILOC
 subset8EK = temp[temp['strategy'].str.contains("8E")]
@@ -63,7 +66,8 @@ df.iloc[0,]         #Show first row all columns
 Subset_df = df.loc[df['Column_Name'] == 'Value']
 Cell_value = subset.iloc[row_number]['Column_Name'] 
 
-#MANIPULATE COLUMNS
+                          
+#MANIPULATE COLUMNS/CELLS/COLUMN TYPE -> REPLACE/SET_VALUE/ASTYPE/
 del df['column_to_delete']                          
 list(df)            #List column names
 df = df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'})
@@ -77,6 +81,11 @@ subset[LegName] = subset.iloc[row_number]['column_name']
 data1 = data.sort_index(axis=1)
 data1 = data.sort_values(['Legs','Strategy_Group','counterparty short label','Leg1'], ascending=[True, False])
 
+X['workClass'] = X['workClass'].astype('category')
+train['workClass'] = train['workClass'].astype('categorical')
+train.replace('>50K', 'MoreThan50K', inplace = True)
+train.set_value('United-States', 'US')                         
+                          
 #CONCAT, SET INDEX, APPEND
 arima_df = pd.concat((timestamp, cf_100), axis = 1)
 arima_df.set_index('Timestamp', inplace = True)
@@ -121,30 +130,17 @@ plt.show()
 
 #####PLOT ROLLING OR RESAMPLE MEAN##############
 
-# arima_df.rolling('3600s).mean().plot(title = "Hourly Avg")     #Hourly avg
-# arima_df.rolling('86400s').mean().plot(title = "Daily Avg")    #Daily avg
-# arima_df.rolling('604800s').mean().plot(title = "Weekly Avg")         #Weekly
-# arima_df.rolling('2592000s').mean().plot(title = "30-day Avg")   #30-day avg
-# arima_data = arima_df.rolling(window='2592000s').mean()
+arima_df.rolling('3600s).mean().plot(title = "Hourly Avg")     #Hourly avg
+arima_df.rolling('86400s').mean().plot(title = "Daily Avg")    #Daily avg
+arima_df.rolling('604800s').mean().plot(title = "Weekly Avg")         #Weekly
+arima_df.rolling('2592000s').mean().plot(title = "30-day Avg")   #30-day avg
+arima_data = arima_df.rolling(window='2592000s').mean()
 
-# arima_data_resample = arima_df.resample('2592000s').mean()        #30-day resample -downsample
-# arima_data_resample = arima_df.resample('D').mean()                 #1day -downsample
-# arima_data_resample = arima_df.resample('M').mean()                 #1month last day resample -downsample
+arima_data_resample = arima_df.resample('2592000s').mean()        #30-day resample -downsample
+arima_data_resample = arima_df.resample('D').mean()                 #1day -downsample
+arima_data_resample = arima_df.resample('M').mean()                 #1month last day resample -downsample
 
 
 ##CORRELATION
 df.corr()
 pd.plotting.scatter_matrix(df)
-
-
-# X['workClass'] = X['workClass'].astype('category')
-# X['workClasscode'] = X['workClass'].cat.codes
-
-# train.drop(columns = ['native-country'], inplace= True)
-# train['workClass'] = train['workClass'].astype('categorical')
-# train.replace('United-States', 'US', inplace = True)
-# train.replace('<=50K', 'LessThan50K', inplace = True)
-# train.replace('>50K', 'MoreThan50K', inplace = True)
-# train.set_value('United-States', 'US')
-# w = train['workClass'].value_counts()
-# w.plot( kind = 'bar')
