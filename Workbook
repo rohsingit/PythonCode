@@ -1,0 +1,6 @@
+Part of the Treasury and Markets Operations Analytics team overlooking data science projects
+within the bank.
+-Perform analytics lifecycle activities including data exploration, scraping, 
+conceptualization and visualisation
+-Cluster analysis to identify product classifications from years of historical transacitonal data
+-Consult with SME's to set user user-stories
