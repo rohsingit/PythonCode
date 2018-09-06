@@ -1,13 +1,20 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
+##MEASURE TIME OF SCRIPT
+import time
+start_time = time.time()
+.......
+print("Time taken by script = %s seconds ---" % (time.time() - start_time))
+
 ##READ TO/FROM CSV/TXT OR EXCEL
 path = r"C:/filename.csv"
 df = pd.read_csv(path, encoding='cp1252', sep = ';', low_memory= False, header = None)    #Encoding if default 'utf-8' not working
 df = pd.read_csv(path)
 df = pd.read_excel(path, sheet_name = "NameOfSheet")
+column_content = list(df['column'])       #Take all rows for that column as a list
 
-df.to_csv("name_of_file.csv")
+df.to_csv("name_of_file.csv", sep = '~')
 df.to_excel("name_of_file.xlsx", merge_cells = False)       #Don't merge cells
 
 #LOAD AS TIME SERIES
@@ -27,6 +34,16 @@ table = pd.DataFrame(df)
 
 df['New_column_name'] = ''
 
+##INSERT INTO LIST/DICTIONARY
+dictionary = {     #Create new dictionary
+		"iphone" : 2007,
+		"iphone 3G" : 2008,
+	}
+released["iphone 5S"] = 2013  #Add to dictionary
+
+list = ['a', b']
+list.insert(index, elment)    #Insert into list
+
 #Preview data
 print(df.head())
 print(df.tail())
@@ -43,28 +60,49 @@ List = pd.read_excel(path)
 List = list(List['Column_Name'])      #Creates a list with members of column name
 
 
-##FIND NULLS/UNIQUES/VALUE_COUNTS/FILLNNA
+##FIND NULLS/UNIQUES/VALUE_COUNTS/FILLNNA/DROPNA/DROP_DUPLICATES
 df.isnull().sum()
 uniqes = list(df['package reference'].unique())
 df['Column_Name'].value_counts().plot(kind = 'bar')   #Or assign to variable --> value_count = ...
 df = df.fillna(method= 'ffill')
 df_pkg['Count_of'] = df_pkg.groupby('column_name')['column_name'].transform('count')
-
+df.drop_duplicates(inplace= True)
+df = df.sort_index(axis=1)
+df = df.sort_values(['Legs','Strategy_Group','counterparty short label','Leg1'], ascending=[True, False, True, True, True])
+df.drop_duplicates(inplace= True)
 
 ##SELECT SUBSET FROM DATAFRAME USING CELL VALUES #ISIN/CONTAINS/GROUPBY/ILOC
 subset8EK = temp[temp['strategy'].str.contains("8E")]
 
-some_list = ('Value1', 'Value2', 'Value3')        #Create a list
+some_list = ('Value1', 'Value2', 'Value3')  #Create a list or tuple to use ISIN
+some_list = ['Value1', 'Value2', 'Value3']  #Create a list or tuple to use ISIN
 Subset_DataFrame = df.loc[df['Column_Name'].isin(some_list)
-
+if (df['column'].iloc[x] in ['RPL_M', ' ', 'RPL'])): Do something
+                          
 w = df.groupby(['trn date', 'strategy', 'trade typology', 'Fmly|Grp|Typ|'])['trn date'].count()                          
 
+##DataFrame can be sliced using df.loc or df.iloc    df.ix is deprecated
+#loc gets rows or columns with labels in the index
+#iloc gets rows or columns with positions in the index
+                          
 df.iloc[0:4]        #Show rows 0 to 3
 df.iloc[0:4,1]      #Show rows 0 to 3 from column 1
+df.iloc[-5:]        #Show last 5 rows
 df.iloc[:,0]        #Show all rows column 0
-df.iloc[0,]         #Show first row all columns                     
-Subset_df = df.loc[df['Column_Name'] == 'Value']
-Cell_value = subset.iloc[row_number]['Column_Name'] 
+df.iloc[0,]         #Show first row all columns
+
+df.loc['a']           #Get row whose index is 'a'
+df.loc['b':, 'date']  #Get all rows from 'b' for column name 'date'
+                          
+subset = df.loc[df['Column_Name'] == 'Value']
+subset = df.loc[(df['family'] == 'value') & (df['group'] == 'value2')]
+subset = temp.loc[(temp['product family'] == 'IRD') & (temp['product group'].isin(group))]
+ 
+Cell_value = subset.iloc[row_number]['Column_Name']
+
+list = ['one', 'two', 'three']
+if ((df['package typology'].iloc[j] in list) or (df['contract typology'].iloc[j] in list)):
+    df['ClassificationType'].iloc[j] = 'FX'
 
                           
 #MANIPULATE COLUMNS/CELLS/COLUMN TYPE -> REPLACE/SET_VALUE/ASTYPE/
@@ -78,9 +116,6 @@ df = df[col_my_order]       #Rearrange columns in order
 LegName = 'Leg' + str(g+1)
 subset[LegName] = subset.iloc[row_number]['column_name']                           
                           
-data1 = data.sort_index(axis=1)
-data1 = data.sort_values(['Legs','Strategy_Group','counterparty short label','Leg1'], ascending=[True, False])
-
 X['workClass'] = X['workClass'].astype('category')
 train['workClass'] = train['workClass'].astype('categorical')
 train.replace('>50K', 'MoreThan50K', inplace = True)
@@ -114,6 +149,8 @@ plt.show()
 plt.plot(df)
 plt.axhline(0.55, color = 'red')      #Put after plotting to avoid x-axis rescaling                                                
 
+df1.groupby(['Product ClassificationType', 'DeskType'])['mx2 trade number'].size().unstack().plot(kind='bar',stacked=True, rot = 0)
+                          
 ###SUBPLOTTING
 fig = plt.figure(1)
 fig.subplots_adjust(hspace=0.4, wspace=0.4)
