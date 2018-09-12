@@ -97,6 +97,7 @@ df.loc['b':, 'date']  #Get all rows from 'b' for column name 'date'
 subset = df.loc[df['Column_Name'] == 'Value']
 subset = df.loc[(df['family'] == 'value') & (df['group'] == 'value2')]
 subset = temp.loc[(temp['product family'] == 'IRD') & (temp['product group'].isin(group))]
+subset.reset_index(drop=True, inplace = True)			  
  
 Cell_value = subset.iloc[row_number]['Column_Name']
 
