@@ -1,6 +1,13 @@
-Part of the Treasury and Markets Operations Analytics team overlooking data science projects
-within the bank.
--Perform analytics lifecycle activities including data exploration, scraping, 
-conceptualization and visualisation
--Cluster analysis to identify product classifications from years of historical transacitonal data
--Consult with SME's to set user user-stories
+4As 
+  - Ask: What data? Whats the problem? Whats the hypothesis?
+  - Acquire: Right data? Metadata, outliers, links, population size, plot samples, corelations
+  - Analyze: What insights can we extract? 
+  - Act: Turn the data for actions
+  
+  Data Storytelling - Narrative + Insights + Visuals
+  
+  4D Framework - 
+    Discover: Guide the qualitative reserach and provide context
+    Define: Quantify the opportunity
+    Develop: Setup, run and measure experiments
+    Deliver: Deploy/instrument solution
