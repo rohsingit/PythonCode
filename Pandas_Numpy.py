@@ -65,7 +65,10 @@ df.isnull().sum()
 uniqes = list(df['package reference'].unique())
 df['Column_Name'].value_counts().plot(kind = 'bar')   #Or assign to variable --> value_count = ...
 df = df.fillna(method= 'ffill')
+	
 df_pkg['Count_of'] = df_pkg.groupby('column_name')['column_name'].transform('count')
+df1.groupby(['Product ClassificationType', 'DeskType'])['mx2 trade number'].size().unstack().plot(kind='bar',stacked=True, rot = 0)
+
 df.drop_duplicates(inplace= True)
 df = df.sort_index(axis=1)
 df = df.sort_values(['Legs','Strategy_Group','counterparty short label','Leg1'], ascending=[True, False, True, True, True])
