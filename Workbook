@@ -11,3 +11,25 @@
     Define: Quantify the opportunity
     Develop: Setup, run and measure experiments
     Deliver: Deploy/instrument solution
+
+Agile Quick Session - Scrum
+Made of: Core Team; Artifacts and Ceremonies
+
+Core Team:
+  -Scrum Master
+  -Product Owner
+  -Dev Team: BA, Testers, Developers
+  
+Artifacts:
+  -Product Backlog (Product Owner)
+  -Spring Backlog (Dev Team)
+  -Potentially Shippable Increment
+  
+Ceremonies:
+  -Sprint Planning (1 hr / ALL) -> generate sprint backlog
+  -Daily Scrum Meeting (5-10 mins) - Product owner not needed
+  -Sprint Review (1 hr) -> Use it as showcase, look for process improvements, CI and comm improvements)
+  -Product Backlog Refinement (1.5 hrs)
+  -Retrspective (1-3 hrs)
+  -Inception
+  -Release Planning Meeting
