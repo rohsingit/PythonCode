@@ -33,3 +33,19 @@ Ceremonies:
   -Retrspective (1-3 hrs)
   -Inception
   -Release Planning Meeting
+
+
+Signal Analysis (Using Python for real-time signal analysis (Mohammad Farhan)):
+Hardware to PC through network, USB, API etc
+
+[HARDWARE]  Gain -> Clean (filtering, downconversion, IQ modulation) -> Digitize (dessimiation, freq shifting, CRI/FIR filters) -> Send
+[PC]        Clean (IQ offset, FFT, power spectrum) -> Visualize -> Complile (exe, csv, database) -> Signal
+
+[READ]        PySerial, PyUSB, PyAudio, Sockets, C/C++ API
+[CLEAN]       Numpy, Scipy
+[VISIALIZE]   PySide (QT), PyQtGraph, MatplotLib
+[COMPILER]    PyInstaller, xlwt, sql
+
+Under Scipy:    Spectogram to visualize sound signals
+                FFT spectrum
+
