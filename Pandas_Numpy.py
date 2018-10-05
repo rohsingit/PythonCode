@@ -71,14 +71,15 @@ df1.groupby(['Product ClassificationType', 'DeskType'])['mx2 trade number'].size
 
 df.drop_duplicates(inplace= True)
 df = df.sort_index(axis=1)
-df = df.sort_values(['Legs','Strategy_Group','counterparty short label','Leg1'], ascending=[True, False, True, True, True])
+df = df.sort_values(['Legs','Strategy_Group','counterparty short label','Leg1'], ascending=[True, False, True, True])
 df.drop_duplicates(inplace= True)
 
 ##SELECT SUBSET FROM DATAFRAME USING CELL VALUES #ISIN/CONTAINS/GROUPBY/ILOC
 subset8EK = temp[temp['strategy'].str.contains("8E")]
+for item in list:
+	subset = temp[temp['column'].str.contains(item, na = False)]
 
-some_list = ('Value1', 'Value2', 'Value3')  #Create a list or tuple to use ISIN
-some_list = ['Value1', 'Value2', 'Value3']  #Create a list or tuple to use ISIN
+some_list = ('Value1', 'Value2', 'Value3')  #Create a list or tuple to use ISIN or with []
 Subset_DataFrame = df.loc[df['Column_Name'].isin(some_list)
 if (df['column'].iloc[x] in ['RPL_M', ' ', 'RPL'])): Do something
                           
