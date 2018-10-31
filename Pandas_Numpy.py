@@ -58,6 +58,7 @@ len(array_name) or len (dataframe)
 path = r'C:\Users\rohitsingh\filename.xlsx'
 List = pd.read_excel(path)
 List = list(List['Column_Name'])      #Creates a list with members of column name
+Column_List = list(df.columns.values)	#Get list of columns from the dataframe
 
 
 ##FIND NULLS/UNIQUES/VALUE_COUNTS/FILLNNA/DROPNA/DROP_DUPLICATES
