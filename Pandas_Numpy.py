@@ -132,6 +132,9 @@ arima_df = pd.concat((timestamp, cf_100), axis = 1)
 arima_df.set_index('Timestamp', inplace = True)
 data = data.append(subset.iloc[0,])
 
+##JOIN COLUMNS in DATAFRAME
+df['Timestamp'] = df[' Date'] + " " + df[' Time']
+
 #CHECK ARRAYS
 np.array_equal(array1 , array2) #True or False
                            
