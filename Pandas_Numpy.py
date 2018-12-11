@@ -95,6 +95,8 @@ df.iloc[0:4,1]      #Show rows 0 to 3 from column 1
 df.iloc[-5:]        #Show last 5 rows
 df.iloc[:,0]        #Show all rows column 0
 df.iloc[0,]         #Show first row all columns
+			  
+df1 = df.iloc[:,0:2] # Remember that Python does not slice inclusive of the ending index.
 
 df.loc['a']           #Get row whose index is 'a'
 df.loc['b':, 'date']  #Get all rows from 'b' for column name 'date'
