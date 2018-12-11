@@ -76,6 +76,13 @@ for f in files:
     df = df.append(data)
 
 
+###PYTHON OS FILE OPERATIONS
+import os
+inputFilepath = 'path/to/file/foobar.txt'
+filename_w_ext = os.path.basename(inputFilepath)
+filename, file_extension = os.path.splitext(filename_w_ext)
+    
+    
 ##################FOLDER_PIRATE########################
 
 import shutil, os, glob, datetime
