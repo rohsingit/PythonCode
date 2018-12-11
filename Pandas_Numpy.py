@@ -149,7 +149,12 @@ for i in range(len(df)):
 df.plot()                 #Plot everything
 df.plot(y = 'column_name')       #Plot a line chart of a column using pandas' plot method
 df.plot.box(rot =  90)
-
+			  
+%matplotlib inline
+plt.figure(figsize=(50,10))
+plt.plot(data)
+plt.ylim(60,-60)
+			  
 plt.plot(df['3852'])
 plt.plot(df['3852'][0:10000])
 plt.title("CF_32 plot")
@@ -174,7 +179,7 @@ for i in range(0, len(col_my_order1)):
 plt.show()
 
 
-#####PLOT ROLLING OR RESAMPLE MEAN##############
+#####PLOT ROLLING OR RESAMPLE MEAN############## FOR TIME SERIES ####
 
 arima_df.rolling('3600s).mean().plot(title = "Hourly Avg")     #Hourly avg
 arima_df.rolling('86400s').mean().plot(title = "Daily Avg")    #Daily avg
@@ -186,7 +191,10 @@ arima_data_resample = arima_df.resample('2592000s').mean()        #30-day resamp
 arima_data_resample = arima_df.resample('D').mean()                 #1day -downsample
 arima_data_resample = arima_df.resample('M').mean()                 #1month last day resample -downsample
 
-
+###FOR NON TIME SERIES DATA
+resample_avg_per_sec = data.groupby(np.arange(len(df))//window_length).mean()
+		 
+		 
 ##CORRELATION
 df.corr()
 pd.plotting.scatter_matrix(df)
