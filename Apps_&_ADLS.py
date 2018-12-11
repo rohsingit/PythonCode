@@ -61,6 +61,20 @@ data = TdmsFile(file= f).as_dataframe()
 data = pd.read_csv(f_csv)
 
 
+source = r'High_Freq_Data/Kalamazoo_Data/KZ01_2018/KZ01_2018_10'
+adl.ls(source)
+
+files = adl.glob(source + "\*.tdms")
+print(files)
+len(files)
+
+df = pd.DataFrame()
+for f in files:
+    open_file = adl.open(f)
+    data = TdmsFile(file= open_file).as_dataframe()
+    data.head()
+    df = df.append(data)
+
 
 ##################FOLDER_PIRATE########################
 
