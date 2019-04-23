@@ -63,6 +63,7 @@ Column_List = list(df.columns.values)	#Get list of columns from the dataframe
 
 ##FIND NULLS/UNIQUES/VALUE_COUNTS/FILLNNA/DROPNA/DROP_DUPLICATES
 df.isnull().sum()
+df_for_model[df_for_model['Frequency CF 5000'].isnull()]    #Exact rows that are empty
 uniqes = list(df['package reference'].unique())
 df['Column_Name'].value_counts().plot(kind = 'bar')   #Or assign to variable --> value_count = ...
 df = df.fillna(method= 'ffill')
