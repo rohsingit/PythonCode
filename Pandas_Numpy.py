@@ -1,6 +1,49 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
+##BASIC PLOTTING
+fig, ax= plt.subplots(figsize=(20,10))
+# ax.plot(df)
+ax.plot(df.loc[startDate:endDate,])
+ax.axhline(y=0.05, color='r', linestyle='--')			#Add horizontal line
+ax.set_title("Asset2 Cavitation DS - Training Data of length "+ str(len(df.loc[startDate:endDate,])) + " of which pump ON State are "+str(len(df.loc[(df['Vibration mm/s'] > 0.05) & (df.index >= startDate) & (df.index < endDate)])))
+
+###SUBPLOTS AUTOMATIC
+%matplotlib inline
+nRow= 12 #7
+nCol= 3
+title= "USS-P5-NDE-SimulatedCavitation_2003_Org4725"
+
+fig, ax= plt.subplots(figsize=(20,50),nrows=nRow,ncols=nCol,constrained_layout=True)
+fig.suptitle(title)
+
+row=col=0
+for attr in colNames:
+#    ax.title.set_text(attr)
+    if (col < nCol):
+        ax[row,col].plot(df['Timestamp'], df[attr])
+        ax[row,col].set_title(attr)
+        col= col + 1
+    else:
+        row= row + 1
+        col= 0
+        ax[row,col].plot(df['Timestamp'], df[attr])
+        ax[row,col].set_title(attr)
+        col= col + 1
+
+ax[11,2].plot(dfPred['Timestamp'], dfPred['Detect Anomaly Status'], 'g')
+ax[11,2].set_title("SparkPredict Status")
+
+for ax in fig.axes:
+    plt.sca(ax)
+    plt.xticks(rotation=45)
+#plt.tight_layout()
+# plt.show()
+fig.savefig(title+'.pdf')
+
+
+
+
 ##MEASURE TIME OF SCRIPT
 import time
 start_time = time.time()
