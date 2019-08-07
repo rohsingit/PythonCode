@@ -150,6 +150,9 @@ subset = df.loc[(df['family'] == 'value') & (df['group'] == 'value2')]
 subset = temp.loc[(temp['product family'] == 'IRD') & (temp['product group'].isin(group))]
 subset.reset_index(drop=True, inplace = True)			  
  
+###CONDITIONAL COLUMN FILL UP
+df['PumpState'] = np.where(df['Vibration Acceleration']>=4, 'CAV', 'NORMAL')
+			  
 Cell_value = subset.iloc[row_number]['Column_Name']
 
 list = ['one', 'two', 'three']
